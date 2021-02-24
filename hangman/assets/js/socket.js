@@ -29,8 +29,9 @@ export function ch_join(cb) {
   callback(state);
 }
 
-export function ch_login(name) {
-  channel.push("login", {name: name})
+// FIXME: we edited this
+export function ch_login(name, player) {
+  channel.push("login", {name: name, player: player})
          .receive("ok", state_update)
          .receive("error", resp => {
            console.log("Unable to login", resp)

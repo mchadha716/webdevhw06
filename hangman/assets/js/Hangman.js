@@ -36,7 +36,6 @@ function Controls({guess, reset}) {
 
   function updateText(ev) {
     let vv = ev.target.value;
-//    let cc = vv[vv.length - 1];
     setText(vv);
   }
 
@@ -96,10 +95,7 @@ function Play({state}) {
   }
 
   function guess(text) {
-    // Inner function isn't a render function
-
-//  START NEW CODE
-
+    // makes sure guess input is valid, displays warning if it is not
     if (text.length !== 4) {
       displayWarning("Guess must 4 numbers long.");
     } else if ((text.charAt(0) === text.charAt(1))
@@ -114,12 +110,8 @@ function Play({state}) {
     } else if (text.charAt(0) === '0') {
       displayWarning("Guess cannot start with 0.")
     } else {
-      ch_push({letter: text});
+      ch_push({letter: text}); // guess was valid!
     }
-
-// END NEW CODE
-
-//    ch_push({letter: text});
   }
 
   let view = word.split('');
@@ -153,17 +145,21 @@ function Play({state}) {
 
 function Login() {
   const [name, setName] = useState("");
-
+  const [player, setPlayer] = useState("");
+  // FIXME: edited this
   return (
     <div className="row">
       <div className="column">
+        <h3>Game Name</h3>
         <input type="text"
                value={name}
                onChange={(ev) => setName(ev.target.value)} />
-      </div>
-      <div className="column">
-        <button onClick={() => ch_login(name)}>
-          Login
+        <h3>Player Name</h3>
+        <input type="text"
+               value={player}
+               onChange={(ev) => setPlayer(ev.target.value)} />
+        <button onClick={() => ch_login(name, player)}>
+               Login
         </button>
       </div>
     </div>
@@ -175,6 +171,7 @@ function Hangman() {
   // should be pure except setState
   const [state, setState] = useState({
     name: "",
+    player: "",
     word: "",
     guesses: [],
   });
