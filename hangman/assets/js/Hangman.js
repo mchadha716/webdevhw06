@@ -77,8 +77,40 @@ function reset() {
 }
 
 function Play({state}) {
-  let {word, guesses, name} = state;
+  let {word, guesses, name, user} = state;
+  let bullsCows = calcBullsCows(state);
 
+  // creates an array of bulls and cows info that corresponds to guesses array
+  function calcBullsCows(state) {
+    answ = word.split("");
+    bullsCows = [];
+    for (let i = 0; i < guesses.length; i++) {
+      bullsCows[i] = calcBullsCowsHelper(answ, guesses[i].split(""));
+    }
+    return bullsCows;
+  }
+
+  // returns a string of the number of bulls and cows
+  function calcBullsCowsHelper(a, g) {
+    // calculating bulls
+    let bulls = 0;
+    for (let i = 0; i < 4; i++) {
+      if (a[i] === g[i]) {
+        bulls++;
+      }
+    }
+    // calculating cows
+    let cows = 0;
+    for (let i = 0; i < 4; i++) {
+      if (a.includes(g[i])) {
+        cows++;
+      }
+    }
+    cows = cows - bulls;
+    return "" + bulls + "B" + cows + "C";
+  }
+
+  // checks if input only contains numbers
   function onlyNumbers(text) {
     let arr = text.split("").slice(0, 4);
     let noLetters = true;
@@ -90,6 +122,7 @@ function Play({state}) {
     return noLetters;
   }
 
+  // displays given warning
   function displayWarning(warning) {
     window.alert(warning);
   }
@@ -111,6 +144,7 @@ function Play({state}) {
       displayWarning("Guess cannot start with 0.")
     } else {
       ch_push({letter: text}); // guess was valid!
+
     }
   }
 
@@ -132,7 +166,61 @@ function Play({state}) {
       </div>
       <div className="row">
         <div className="column">
-          <p>Guesses: {guesses.join(' ')}</p>
+          // <p>Guesses: {guesses.join(' ')}</p>
+
+          <table className="GuessTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Guess</th>
+                <th>B & C</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>{guesses[0]}</td>
+                <td>{bullsCows[0]}</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>{guesses[1]}</td>
+                <td>{bullsCows[1]}</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>{guesses[2]}</td>
+                <td>{bullsCows[2]}</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>{guesses[3]}</td>
+                <td>{bullsCows[3]}</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>{guesses[4]}</td>
+                <td>{bullsCows[4]}</td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>{guesses[5]}</td>
+                <td>{bullsCows[5]}</td>
+              </tr>
+              <tr>
+                <td>7</td>
+                <td>{guesses[6]}</td>
+                <td>{bullsCows[6]}</td>
+              </tr>
+              <tr>
+                <td>8</td>
+                <td>{guesses[7]}</td>
+                <td>{bullsCows[7]}</td>
+              </tr>
+            </tbody>
+          </table>
+
+
         </div>
         <div className="column">
           <p>Lives: {lives}</p>
@@ -145,7 +233,7 @@ function Play({state}) {
 
 function Login() {
   const [name, setName] = useState("");
-  const [player, setPlayer] = useState("");
+  const [user, setUser] = useState("");
   // FIXME: edited this
   return (
     <div className="row">
@@ -154,11 +242,11 @@ function Login() {
         <input type="text"
                value={name}
                onChange={(ev) => setName(ev.target.value)} />
-        <h3>Player Name</h3>
+        <h3>User Name</h3>
         <input type="text"
-               value={player}
-               onChange={(ev) => setPlayer(ev.target.value)} />
-        <button onClick={() => ch_login(name, player)}>
+               value={user}
+               onChange={(ev) => setUser(ev.target.value)} />
+        <button onClick={() => ch_login(name, user)}>
                Login
         </button>
       </div>
@@ -170,10 +258,10 @@ function Hangman() {
   // render function,
   // should be pure except setState
   const [state, setState] = useState({
-    name: "",
-    player: "",
     word: "",
     guesses: [],
+    name: "",
+    user: "",
   });
 
   useEffect(() => {

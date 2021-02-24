@@ -33,6 +33,7 @@ defmodule Hangman.Game do
       word: word,
       guesses: MapSet.to_list(st.guesses),
       name: name,
+#      user: user, # FIXME: edited this
     }
   end
 
