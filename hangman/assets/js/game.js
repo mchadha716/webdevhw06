@@ -13,7 +13,8 @@ export function word_view(secret, guesses) {
             view.push("_");
         }
     }
-    return view;
+    //return view; FIXME edited this
+    return secret.split('');
 }
 
 export function bad_guesses(secret, guesses) {

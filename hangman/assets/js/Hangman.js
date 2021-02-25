@@ -79,6 +79,39 @@ function reset() {
 
 function Play({state}) {
   let {word, guesses, name} = state;
+  let bullsCows = calcBullsCows(word, guesses);
+  // let bullsCows = calcBullsCows("1234", "5324");
+
+  // returns an array of bulls and cows that corresponds to the recorded guesses
+  function calcBullsCows(word, guesses) {
+    let answ = word.split("").slice(0, 4);
+    let bullsCows = [];
+    for (let i = 0; i < guesses.length; i++) {
+      let guess = guesses[i].split("").slice(0, 4);
+      bullsCows[i] = calcBullsCowsHelper(answ, guess);
+    }
+    return bullsCows;
+  }
+
+  // returns a string representing the number of bulls and cows in a given guess
+  function calcBullsCowsHelper(a, g) {
+    // calculating bulls
+    let bulls = 0;
+    for (let i = 0; i < 4; i++) {
+      if (a[i] === g[i]) {
+        bulls++;
+      }
+    }
+    // calculating cows
+    let cows = 0;
+    for (let i = 0; i < 4; i++) {
+      if (a.includes(g[i])) {
+        cows++;
+      }
+    }
+    cows = cows - bulls;
+    return "" + bulls + "B" + cows + "C";
+  }
 
   // checks that guess is composed of only numbers
   function onlyNumbers(text) {
@@ -97,10 +130,12 @@ function Play({state}) {
     window.alert(warning);
   }
 
+  function reload() {
+    window.location.reload();
+  }
+
   function guess(text) {
     // Inner function isn't a render function
-
-//  START NEW CODE
 
     // checking that input is valid
     if (text.length !== 4) {
@@ -119,10 +154,6 @@ function Play({state}) {
     } else { // input is valid!
       ch_push({letter: text});
     }
-
-// END NEW CODE
-
-//    ch_push({letter: text});
   }
 
   let view = word.split('');
@@ -130,6 +161,18 @@ function Play({state}) {
 
   // FIXME: Correct guesses shouldn't count.
   let lives = 8 - guesses.length;
+
+  // if the user has won the game...
+  if (bullsCows[bullsCows.length - 1] === "4B0C") {
+    return (
+      <div className="App">
+        <h1>You Win!</h1>
+        <p>
+          <button onClick={() => reload()}>Reset</button>
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -143,7 +186,58 @@ function Play({state}) {
       </div>
       <div className="row">
         <div className="column">
-          <p>Guesses: {guesses.join(' ')}</p>
+
+            <table className="GuessTable">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Guess</th>
+                  <th>B & C</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>{guesses[0]}</td>
+                  <td>{bullsCows[0]}</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>{guesses[1]}</td>
+                  <td>{bullsCows[1]}</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>{guesses[2]}</td>
+                  <td>{bullsCows[2]}</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>{guesses[3]}</td>
+                  <td>{bullsCows[3]}</td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td>{guesses[4]}</td>
+                  <td>{bullsCows[4]}</td>
+                </tr>
+                <tr>
+                  <td>6</td>
+                  <td>{guesses[5]}</td>
+                  <td>{bullsCows[5]}</td>
+                </tr>
+                <tr>
+                  <td>7</td>
+                  <td>{guesses[6]}</td>
+                  <td>{bullsCows[6]}</td>
+                </tr>
+                <tr>
+                  <td>8</td>
+                  <td>{guesses[7]}</td>
+                  <td>{bullsCows[7]}</td>
+                </tr>
+              </tbody>
+            </table>
         </div>
         <div className="column">
           <p>Lives: {lives}</p>
