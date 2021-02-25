@@ -80,6 +80,7 @@ function reset() {
 function Play({state}) {
   let {word, guesses, name} = state;
 
+  // checks that guess is composed of only numbers
   function onlyNumbers(text) {
     let arr = text.split("").slice(0, 4);
     let noLetters = true;
@@ -91,6 +92,7 @@ function Play({state}) {
     return noLetters;
   }
 
+  // displays given warning in a popup
   function displayWarning(warning) {
     window.alert(warning);
   }
@@ -100,6 +102,7 @@ function Play({state}) {
 
 //  START NEW CODE
 
+    // checking that input is valid
     if (text.length !== 4) {
       displayWarning("Guess must 4 numbers long.");
     } else if ((text.charAt(0) === text.charAt(1))
@@ -113,7 +116,7 @@ function Play({state}) {
       displayWarning("Guess must only contain numbers.")
     } else if (text.charAt(0) === '0') {
       displayWarning("Guess cannot start with 0.")
-    } else {
+    } else { // input is valid!
       ch_push({letter: text});
     }
 
