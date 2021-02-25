@@ -65,7 +65,7 @@ defmodule Hangman.GameServer do
   end
 
   def handle_info(:pook, game) do
-    game = Game.guess(game, "q")
+    # game = Game.guess(game, "q")
     HangmanWeb.Endpoint.broadcast!(
       "game:1", # FIXME: Game name should be in state
       "view",

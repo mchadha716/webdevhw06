@@ -19,16 +19,6 @@ defmodule Hangman.Game do
 
   def view(st, name) do
     word = st.secret
-    |> String.graphemes
-    |> Enum.map(fn xx ->
-      if MapSet.member?(st.guesses, xx) do
-        xx
-      else
-        "_"
-      end
-    end)
-    |> Enum.join("")
-
     %{
       word: word,
       guesses: MapSet.to_list(st.guesses),
