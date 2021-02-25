@@ -11,6 +11,8 @@ let channel = socket.channel("game:1", {});
 let state = {
   word: "______",
   guesses: [],
+  name: "",
+  user: "",
 };
 
 let callback = null;
@@ -29,8 +31,9 @@ export function ch_join(cb) {
   callback(state);
 }
 
-export function ch_login(name) {
-  channel.push("login", {name: name})
+// FIXME: we edited this
+export function ch_login(name, user) {
+  channel.push("login", {name: name, user: user})
          .receive("ok", state_update)
          .receive("error", resp => {
            console.log("Unable to login", resp)

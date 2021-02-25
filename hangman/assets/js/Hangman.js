@@ -36,7 +36,6 @@ function Controls({guess, reset}) {
 
   function updateText(ev) {
     let vv = ev.target.value;
-//    let cc = vv[vv.length - 1];
     setText(vv);
   }
 
@@ -186,7 +185,6 @@ function Play({state}) {
       </div>
       <div className="row">
         <div className="column">
-
             <table className="GuessTable">
               <thead>
                 <tr>
@@ -250,17 +248,21 @@ function Play({state}) {
 
 function Login() {
   const [name, setName] = useState("");
-
+  const [user, setUser] = useState("");
+  // FIXME: edited this
   return (
     <div className="row">
       <div className="column">
+        <h3>Game Name</h3>
         <input type="text"
                value={name}
                onChange={(ev) => setName(ev.target.value)} />
-      </div>
-      <div className="column">
-        <button onClick={() => ch_login(name)}>
-          Login
+        <h3>User Name</h3>
+        <input type="text"
+               value={user}
+               onChange={(ev) => setUser(ev.target.value)} />
+        <button onClick={() => ch_login(name, user)}>
+               Login
         </button>
       </div>
     </div>
@@ -271,9 +273,10 @@ function Hangman() {
   // render function,
   // should be pure except setState
   const [state, setState] = useState({
-    name: "",
     word: "",
     guesses: [],
+    name: "",
+    user: "",
   });
 
   useEffect(() => {
